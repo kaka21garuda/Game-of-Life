@@ -13,6 +13,8 @@ class Grid: SKSpriteNode {
     //Grid array dimensions
     let rows = 8
     let columns = 10
+    var population = 0
+    var generation = 0
     
     //individual cell dimension, calculated in setup
     var cellWidth = 0
@@ -25,7 +27,16 @@ class Grid: SKSpriteNode {
         for touch in touches {
             //Grab position of touch relative to the grid
             let location = touch.locationInNode(self)
+            
+            /* Calculate grid array position */
+            let gridX = Int(location.x) / cellWidth
+            let gridY = Int(location.y) / cellHeight
+            
+            /* Toggle creature visibility */
+            let creature = gridArray[gridX][gridY]
+            creature.isAlive = !creature.isAlive
         }
+        
     }
     
     //We need to implement this in order for our Subclass to work
@@ -85,7 +96,7 @@ class Grid: SKSpriteNode {
         creature.position = gridPosition
         
         /* Set default isAlive */
-        creature.isAlive = true
+        creature.isAlive = false
         
         /* Add creature to grid node */
         addChild(creature)
